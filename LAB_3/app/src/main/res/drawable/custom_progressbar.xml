@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Define the background properties like color etc -->
+    <item android:id="@android:id/background">
+        <shape>
+            <gradient
+                android:startColor="#F1F1F1"
+                android:centerColor="#F1F1F1"
+                android:centerY="1.0"
+                android:endColor="#F1F1F1"
+                android:angle="270"
+                />
+        </shape>
+    </item>
+
+    <item android:top="5dp" android:bottom="5dp">
+        <shape>
+            <gradient
+                android:startColor="#D1D1D1"
+                android:centerColor="#D1D1D1"
+                android:centerY="1.0"
+                android:endColor="#D1D1D1"
+                android:angle="270"
+                />
+        </shape>
+    </item>
+
+    <!-- Define the progress properties like start color, end color etc -->
+    <item android:id="@android:id/progress"
+        android:top="5dp" android:bottom="5dp">
+        <clip>
+            <shape>
+                <gradient
+                    android:startColor="#66CFFF"
+                    android:centerColor="#66CFFF"
+                    android:centerY="1.0"
+                    android:endColor="#66CFFF"
+                    android:angle="270"
+                    />
+            </shape>
+        </clip>
+    </item>
+
+    <!--<item android:width="40dp" android:gravity="left">
+        <shape
+            android:shape="rectangle"
+            android:thickness="6dp"
+            android:visible="true">
+            <solid android:color="#F1F1F1" />
+        </shape>
+    </item>
+
+    <item android:left="-120sp" android:width="60dp" android:gravity="center">
+        <shape
+            android:shape="rectangle"
+            android:thickness="6dp"
+            android:visible="true">
+            <solid android:color="#F1F1F1" />
+        </shape>
+    </item>
+
+    <item android:left="120sp" android:width="60dp" android:gravity="center">
+        <shape
+            android:shape="rectangle"
+            android:thickness="6dp"
+            android:visible="true">
+            <solid android:color="#F1F1F1" />
+        </shape>
+    </item>
+
+    <item android:width="40dp" android:gravity="right">
+        <shape
+            android:shape="rectangle"
+            android:thickness="6dp"
+            android:visible="true">
+            <solid android:color="#F1F1F1" />
+        </shape>
+    </item>-->
+
+</layer-list>
