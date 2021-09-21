@@ -26,7 +26,7 @@ import baa.fit.bstu.gamecreation.util.GameLiteral;
 
 public class GameFormSecond extends AppCompatActivity {
 
-    private final String[] Genres = {"RPG", "MMORPG", "MOBA", "Shooter", "Horror", "Strategy", "Arcade"};
+    private final String[] Genres = {"RPG", "Hack and slash", "MMORPG", "MOBA", "Shooter", "Horror", "Strategy", "Arcade"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

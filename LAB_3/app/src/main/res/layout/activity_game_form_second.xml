@@ -6,31 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".GameFormSecond">
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:onClick="toNext"
+        android:text="Next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="5dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
-        android:orientation="vertical">
-
-        <ProgressBar
-            android:id="@+id/progressBar1"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:progressDrawable="@drawable/custom_progressbar"
-            android:layout_width="fill_parent"
-            android:layout_height="20dp"
-            android:progress="50"
-            android:layout_margin="20dp"/>
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:text="Stage 2"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:elevation="2dp"
-            android:background="@color/white"/>
+        android:orientation="vertical"
+        android:layout_marginBottom="60dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -40,6 +33,26 @@
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <ProgressBar
+                    android:id="@+id/progressBar1"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:progressDrawable="@drawable/custom_progressbar"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:progress="50"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="10dp"/>
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:text="Stage 2"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:elevation="2dp"
+                    android:background="@color/white"/>
 
                 <TableRow
                     android:layout_height="50dp"
@@ -110,15 +123,6 @@
             </TableLayout>
 
         </ScrollView>
-
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:text="Next"
-            android:onClick="toNext"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="20dp"/>
 
     </LinearLayout>
 

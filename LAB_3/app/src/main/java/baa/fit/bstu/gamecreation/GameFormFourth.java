@@ -25,23 +25,35 @@ public class GameFormFourth extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_form_fourth);
 
+        injectValuesToViews();
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void injectValuesToViews() {
         byte[] byteArray = getIntent().getByteArrayExtra(GameLiteral.IMAGE);
         Bitmap image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
         String name = getIntent().getStringExtra(GameLiteral.NAME);
         String genre = getIntent().getStringExtra(GameLiteral.GENRE);
         Date date = (Date)getIntent().getSerializableExtra(GameLiteral.DATE);
+        String review = getIntent().getStringExtra(GameLiteral.REVIEW);
+        String version = getIntent().getStringExtra(GameLiteral.VERSION);
+        String developer = getIntent().getStringExtra(GameLiteral.DEVELOPER);
+        String publisher = getIntent().getStringExtra(GameLiteral.PUBLISHER);
 
 
         ((TextView)findViewById(R.id.game_name)).setText(name);
         ((TextView)findViewById(R.id.game_genre)).setText(genre);
-        String dateFormatted = date.getDay() + "-" + date.getMonth() + "-" + date.getYear();
+        String dateFormatted = new SimpleDateFormat("dd MMMM").format(date) + " of " + date.getYear();
         ((TextView)findViewById(R.id.game_date)).setText(dateFormatted);
         ((ImageView)findViewById(R.id.game_image)).setImageBitmap(image);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        ((TextView)findViewById(R.id.game_review)).setText(review);
+        ((TextView)findViewById(R.id.game_version)).setText(version);
+        ((TextView)findViewById(R.id.game_developer)).setText(developer);
+        ((TextView)findViewById(R.id.game_publisher)).setText(publisher);
     }
 
     @Override

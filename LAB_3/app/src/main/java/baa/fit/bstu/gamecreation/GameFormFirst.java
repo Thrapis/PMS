@@ -18,11 +18,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import baa.fit.bstu.gamecreation.util.ActivityCode;
+import baa.fit.bstu.gamecreation.util.GameLiteral;
 
 public class GameFormFirst extends AppCompatActivity {
-
-    private final String NAME = "NAME";
-    private final String IMAGE = "IMAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +56,13 @@ public class GameFormFirst extends AppCompatActivity {
 
         Bitmap bmp = ((BitmapDrawable)imageField.getDrawable()).getBitmap();;
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] byteArray = stream.toByteArray();
 
         Intent intent = new Intent(this, GameFormSecond.class);
         //intent.putExtras(getIntent().getExtras());
-        intent.putExtra(NAME, nameField.getText().toString());
-        intent.putExtra(IMAGE, byteArray);
+        intent.putExtra(GameLiteral.NAME, nameField.getText().toString());
+        intent.putExtra(GameLiteral.IMAGE, byteArray);
 
         startActivityForResult(intent, ActivityCode.GAME_RESULT);
         overridePendingTransition(R.anim.in_right, R.anim.out_left);
