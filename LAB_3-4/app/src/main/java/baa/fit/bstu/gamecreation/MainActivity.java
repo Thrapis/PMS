@@ -120,19 +120,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void save(View view) {
         if (GameContainer.exportToJson(this)) {
-            Toast.makeText(this, "Saving games success", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Saving games success", Toast.LENGTH_LONG);
         }
         else {
-            Toast.makeText(this, "Saving games failed", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Saving games failed", Toast.LENGTH_LONG);
         }
     }
 
     public void load(View view) {
         if (GameContainer.importFromJson(this)) {
-            Toast.makeText(this, "Loading games success", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Loading games success", Toast.LENGTH_LONG);
         }
         else {
-            Toast.makeText(this, "Loading games failed", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Loading games failed", Toast.LENGTH_LONG);
         }
         updateGameList();
     }
@@ -145,5 +145,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        GameContainer.importFromJson(this);
+        updateGameList();
     }
 }
