@@ -99,9 +99,10 @@ public class GameFormFirst extends AppCompatActivity {
     }
 
     public void selectImage(View view) {
-        Intent intent = new Intent();
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), ActivityCode.PICK_IMAGE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), ActivityCode.PICK_IMAGE);
+        }
     }
 }

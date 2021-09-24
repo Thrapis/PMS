@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GameCreation">
         <activity
+            android:name=".GameInfo"
+            android:exported="true" />
+        <activity
             android:name=".GameFormFourth"
             android:exported="true" />
         <activity

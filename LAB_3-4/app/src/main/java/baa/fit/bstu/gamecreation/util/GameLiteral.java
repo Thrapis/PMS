@@ -1,6 +1,7 @@
 package baa.fit.bstu.gamecreation.util;
 
 public final class GameLiteral {
+    public static final String GAME = "GAME";
     public static final String NAME = "NAME";
     public static final String IMAGE = "IMAGE";
     public static final String GENRE = "GENRE";

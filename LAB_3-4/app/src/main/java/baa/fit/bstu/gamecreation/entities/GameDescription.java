@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -45,8 +46,8 @@ public class GameDescription implements Parcelable, Serializable {
     protected GameDescription(Parcel in) {
         name = in.readString();
         int size = in.readInt();
-        byte[] _image = new byte[size];
-        in.readByteArray(_image);
+        image = new byte[size];
+        in.readByteArray(image);
         date = (Date) in.readSerializable();
         genre = in.readString();
         version = in.readString();
@@ -121,6 +122,12 @@ public class GameDescription implements Parcelable, Serializable {
 
     public Bitmap getImageAsBitmap() {
         return BitmapFactory.decodeByteArray(image, 0, image.length);
+    }
+
+    public void setImageFromBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        image = stream.toByteArray();
     }
 
     @Override

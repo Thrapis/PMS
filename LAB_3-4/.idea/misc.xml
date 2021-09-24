@@ -3,6 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Study/PMS/LABS/LAB_3-4/app/src/main/res/drawable/border.xml" value="0.14427083333333332" />
+        <entry key="..\:/Study/PMS/LABS/LAB_3-4/app/src/main/res/drawable/border_front.xml" value="0.14427083333333332" />
+        <entry key="..\:/Study/PMS/LABS/LAB_3-4/app/src/main/res/drawable/lower_border.xml" value="0.14427083333333332" />
+        <entry key="..\:/Study/PMS/LABS/LAB_3-4/app/src/main/res/layout/activity_game_form_first.xml" value="0.121875" />
+        <entry key="..\:/Study/PMS/LABS/LAB_3-4/app/src/main/res/layout/activity_game_form_fourth.xml" value="0.121875" />
+        <entry key="..\:/Study/PMS/LABS/LAB_3-4/app/src/main/res/layout/activity_game_info.xml" value="0.176" />
+        <entry key="..\:/Study/PMS/LABS/LAB_3-4/app/src/main/res/layout/activity_main.xml" value="0.152" />
+        <entry key="..\:/Study/PMS/LABS/LAB_3-4/app/src/main/res/layout/info.xml" value="0.6" />
+        <entry key="..\:/Study/PMS/LABS/LAB_3-4/app/src/main/res/layout/info_social_row.xml" value="0.4" />
+        <entry key="..\:/Study/PMS/LABS/LAB_3-4/app/src/main/res/layout/table_row.xml" value="0.121875" />
+        <entry key="..\:/Study/PMS/LABS/LAB_3-4/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14427083333333332" />
         <entry key="..\:/Study/PMS/LABS/LAB_3/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2703125" />
         <entry key="..\:/Study/PMS/LABS/LAB_3/app/src/main/res/drawable/custom_progressbar.xml" value="0.2074074074074074" />
         <entry key="..\:/Study/PMS/LABS/LAB_3/app/src/main/res/drawable/customprogressbar.xml" value="0.2703125" />
