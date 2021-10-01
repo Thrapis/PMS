@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toEmail(View view) {
-        String[] addresses = { "artbelski1@mail.ru" };
+        String[] addresses = { userInfo.getEmail() };
         String subject = "Just to talk";
         Uri attachment = null;
 
@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void toPhone(View view) {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + "+375447464364"));
+        intent.setData(Uri.parse("tel:" + userInfo.getPhone()));
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
