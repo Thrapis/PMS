@@ -76,7 +76,7 @@ public class GoodItem implements Serializable {
 
     public void setImageFromBitmap(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, stream);
         image = stream.toByteArray();
     }
 

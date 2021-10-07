@@ -26,6 +26,7 @@ import bstu.fit.baa.goodsfinder.adapter.GoodAdapter;
 import bstu.fit.baa.goodsfinder.entitie.GoodItem;
 import bstu.fit.baa.goodsfinder.util.GoodItemsContainer;
 import bstu.fit.baa.goodsfinder.util.GoodItemsSortType;
+import bstu.fit.baa.goodsfinder.util.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        GoodItemsContainer.importFromJson(this);
 
         dialog = new Dialog(this);
         dialog.setTitle("Remove good");
@@ -134,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+       /* int id = item.getItemId();
         switch(id){
             case R.id.no_sort_settings:
                 Toast.makeText(this, "No sort", Toast.LENGTH_SHORT).show();
@@ -166,14 +168,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, ADD_NEW_GOOD_ITEM);
                 return true;
         }
+        return super.onOptionsItemSelected(item);*/
+
         return super.onOptionsItemSelected(item);
     }
 
     void updateList() {
-        ListView list = findViewById(R.id.itemsList);
-        list.removeAllViewsInLayout();
-        GoodAdapter adapter = new GoodAdapter(this, GoodItemsContainer.getGoodItemsList(pattern));
-        list.setAdapter(adapter);
+
+        //ListView list = findViewById(R.id.itemsList);
+        //list.removeAllViewsInLayout();
+        //GoodAdapter adapter = new GoodAdapter(this, GoodItemsContainer.getGoodItemsList(pattern));
+        //list.setAdapter(adapter);
     }
 
 

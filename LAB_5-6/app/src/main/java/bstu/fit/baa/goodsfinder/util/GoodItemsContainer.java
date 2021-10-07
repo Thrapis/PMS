@@ -70,7 +70,7 @@ public class GoodItemsContainer {
     }
 
     public static List<GoodItem> getGoodItemsList(String pattern) {
-        String filter = "(\\w*)" + pattern.toLowerCase(Locale.ROOT) + "(\\w*)";
+        String filter = "(.*)" + pattern.toLowerCase(Locale.ROOT) + "(.*)";
         switch (sortType) {
             case SORT_BY_NAME:
                 return goodItems.stream()

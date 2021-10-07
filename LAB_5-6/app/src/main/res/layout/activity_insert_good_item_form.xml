@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditGoodItemForm">
+    tools:context=".InsertGoodItemForm">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:text="Edit Item Good Form"
+                android:text="Insert Item Good Form"
                 android:textAlignment="center"
                 android:textSize="20sp"/>
 
@@ -108,6 +108,7 @@
                     android:layout_weight="0.7"
                     android:layout_height="match_parent"
                     android:id="@+id/good_image"
+                    android:src="@drawable/good_item"
                     android:onClick="takePhoto"
                     android:scaleType="fitCenter"/>
 
@@ -184,8 +185,8 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:onClick="edit"
-                android:text="Edit"
+                android:onClick="done"
+                android:text="Done"
                 android:layout_marginVertical="5dp"/>
 
         </LinearLayout>
