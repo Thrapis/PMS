@@ -22,7 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.IOException;
 import java.util.Date;
 
-import bstu.fit.baa.goodsfinder.entitie.GoodItem;
+import bstu.fit.baa.goodsfinder.entity.GoodItem;
 
 public class EditGoodItemForm extends AppCompatActivity {
 

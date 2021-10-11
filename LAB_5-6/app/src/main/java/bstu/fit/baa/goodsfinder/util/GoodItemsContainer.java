@@ -12,17 +12,37 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Stack;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import bstu.fit.baa.goodsfinder.entitie.GoodItem;
+import bstu.fit.baa.goodsfinder.entity.GoodItem;
+import bstu.fit.baa.goodsfinder.listener.GoodItemsContainerListener;
 
 public class GoodItemsContainer {
 
     private final static String FILE_NAME = "goods_data.json";
     private static GoodItemsSortType sortType = GoodItemsSortType.NO_SORT;
+    private static String pattern = "";
 
     private static List<GoodItem> goodItems = new ArrayList<>();
+    private static List<GoodItemsContainerListener> listeners = new ArrayList<>();
+    private static Stack<GoodItem> selectedGoodItemStack = new Stack<>();
+    //private static GoodItem selectedGoodItem = null;
+
+    private static void handleListeners() {
+        for (GoodItemsContainerListener listener : listeners) {
+            listener.containerChanged();
+        }
+    }
+
+    public static void addListener(GoodItemsContainerListener listener) {
+        listeners.add(listener);
+    }
+
+    public static void removeListener(GoodItemsContainerListener listener) {
+        listeners.remove(listener);
+    }
 
     public static void addGoodItem(GoodItem goodItem) {
         if (goodItem.getId() == null || goodItems.stream().anyMatch(t -> t.getId().equals(goodItem.getId()))) {
@@ -30,6 +50,7 @@ public class GoodItemsContainer {
             goodItem.setId(uuid);
         }
         goodItems.add(goodItem);
+        handleListeners();
     }
 
     public static void updateGoodItem(GoodItem newGoodItem) {
@@ -43,12 +64,14 @@ public class GoodItemsContainer {
             oldGoodItem.setFinder(newGoodItem.getFinder());
             oldGoodItem.setReceiptPlace(newGoodItem.getReceiptPlace());
         }
+        handleListeners();
     }
 
-    public static  void removeGoodItem(UUID id) {
-        goodItems.removeIf(t -> t.getId() == null);
+    public static void removeGoodItem(UUID id) {
+        //goodItems.removeIf(t -> t.getId() == null);
         if (id != null)
             goodItems.removeIf(t -> t.getId().equals(id));
+        handleListeners();
     }
 
     public static GoodItem getGoodItem(UUID id) {
@@ -59,31 +82,35 @@ public class GoodItemsContainer {
     }
 
     public static List<GoodItem> getGoodItemsList() {
+        List<GoodItem> result = null;
         switch (sortType) {
             case SORT_BY_NAME:
-                return goodItems.stream().sorted(Comparator.comparing(GoodItem::getName)).collect(Collectors.toList());
+                result = goodItems.stream().sorted(Comparator.comparing(GoodItem::getName)).collect(Collectors.toList());
             case SORT_BY_FIND_DATE:
-                return goodItems.stream().sorted(Comparator.comparing(GoodItem::getFindDate)).collect(Collectors.toList());
+                result = goodItems.stream().sorted(Comparator.comparing(GoodItem::getFindDate)).collect(Collectors.toList());
             default:
-                return goodItems;
+                result = goodItems;
         }
+        return result;
     }
 
-    public static List<GoodItem> getGoodItemsList(String pattern) {
+    public static List<GoodItem> getGoodItemsListByPattern() {
         String filter = "(.*)" + pattern.toLowerCase(Locale.ROOT) + "(.*)";
+        List<GoodItem> result = null;
         switch (sortType) {
             case SORT_BY_NAME:
-                return goodItems.stream()
+                result = goodItems.stream()
                         .filter(t -> t.getName().toLowerCase(Locale.ROOT).matches(filter))
                         .sorted(Comparator.comparing(GoodItem::getName)).collect(Collectors.toList());
             case SORT_BY_FIND_DATE:
-                return goodItems.stream()
+                result = goodItems.stream()
                         .filter(t -> t.getName().toLowerCase(Locale.ROOT).matches(filter))
                         .sorted(Comparator.comparing(GoodItem::getFindDate)).collect(Collectors.toList());
             default:
-                return goodItems.stream()
+                result = goodItems.stream()
                         .filter(t -> t.getName().toLowerCase(Locale.ROOT).matches(filter)).collect(Collectors.toList());
         }
+        return result;
     }
 
     public static GoodItemsSortType getSortType() {
@@ -92,6 +119,48 @@ public class GoodItemsContainer {
 
     public static void setSortType(GoodItemsSortType newSortType) {
         sortType = newSortType;
+        handleListeners();
+    }
+
+    public static String getPattern() {
+        return pattern;
+    }
+
+    public static void setPattern(String pattern) {
+        GoodItemsContainer.pattern = pattern;
+        clearSelectedGoodItems();
+        handleListeners();
+    }
+
+    public static GoodItem peekSelectedGoodItem() {
+        if (selectedGoodItemStack.empty())
+            return null;
+        else
+            return selectedGoodItemStack.peek();
+    }
+
+    public static void pushSelectedGoodItem(GoodItem goodItem) {
+        if (!selectedGoodItemStack.empty() && goodItem == selectedGoodItemStack.peek())
+            selectedGoodItemStack.push(null);
+        else
+            selectedGoodItemStack.push(goodItem);
+        handleListeners();
+    }
+
+    public static GoodItem popSelectedGoodItem() {
+        if (selectedGoodItemStack.empty()) {
+            return null;
+        }
+        else {
+            GoodItem goodItem = selectedGoodItemStack.pop();
+            handleListeners();
+            return goodItem;
+        }
+    }
+
+    public static void clearSelectedGoodItems() {
+        selectedGoodItemStack.clear();
+        handleListeners();
     }
 
     public static boolean exportToJson(Context context) {
@@ -131,6 +200,8 @@ public class GoodItemsContainer {
             streamReader = new InputStreamReader(inputStream);
             Gson gson = new Gson();
             goodItems = gson.fromJson(streamReader, GoodItemsShell.class).getGoods();
+            clearSelectedGoodItems();
+            handleListeners();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -163,5 +234,4 @@ public class GoodItemsContainer {
             this.goods = goods;
         }
     }
-
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="horizontal">
+
+       <androidx.fragment.app.FragmentContainerView
+           xmlns:android="http://schemas.android.com/apk/res/android"
+           android:background="@drawable/borders"
+           android:padding="5dp"
+           android:id="@+id/fragment_container_view"
+           android:layout_width="0dp"
+           android:layout_weight="0.5"
+           android:layout_height="match_parent"
+           android:name="bstu.fit.baa.goodsfinder.GoodItemListFragment" />
+
+       <androidx.fragment.app.FragmentContainerView
+           xmlns:android="http://schemas.android.com/apk/res/android"
+           android:background="@drawable/borders"
+           android:padding="5dp"
+           android:id="@+id/fragment_detail_view"
+           android:layout_width="0dp"
+           android:layout_weight="0.5"
+           android:layout_height="match_parent"
+           android:name="bstu.fit.baa.goodsfinder.GoodItemDetailFragment" />
+
+
+   </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

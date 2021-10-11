@@ -28,14 +28,14 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.3"
+                android:layout_weight="0.35"
                 android:text="Name: "
                 android:gravity="left"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.7"
+                android:layout_weight="0.65"
                 android:id="@+id/good_name"
                 android:gravity="right"/>
 
@@ -50,14 +50,14 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.3"
+                android:layout_weight="0.35"
                 android:text="Find Date: "
                 android:gravity="left"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.7"
+                android:layout_weight="0.65"
                 android:id="@+id/good_find_date"
                 android:gravity="right"/>
 
@@ -72,14 +72,14 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.3"
+                android:layout_weight="0.35"
                 android:text="Find Place: "
                 android:gravity="left"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.7"
+                android:layout_weight="0.65"
                 android:id="@+id/good_find_place"
                 android:gravity="right"/>
 

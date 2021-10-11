@@ -1,4 +1,4 @@
-package bstu.fit.baa.goodsfinder.entitie;
+package bstu.fit.baa.goodsfinder.entity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

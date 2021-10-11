@@ -6,38 +6,38 @@ import static bstu.fit.baa.goodsfinder.util.IntentCodeLiteral.GOOD_ITEM_RESULT;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.UUID;
 
-import bstu.fit.baa.goodsfinder.adapter.GoodAdapter;
-import bstu.fit.baa.goodsfinder.entitie.GoodItem;
+import bstu.fit.baa.goodsfinder.entity.GoodItem;
+import bstu.fit.baa.goodsfinder.listener.GoodItemsContainerListener;
 import bstu.fit.baa.goodsfinder.util.GoodItemsContainer;
 import bstu.fit.baa.goodsfinder.util.GoodItemsSortType;
-import bstu.fit.baa.goodsfinder.util.*;
 
 public class MainActivity extends AppCompatActivity {
 
-    Dialog dialog;
-    String pattern = "";
+    private Dialog dialog;
+    private GoodItemsContainerListener listener;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        GoodItemsContainer.importFromJson(this);
 
         dialog = new Dialog(this);
         dialog.setTitle("Remove good");
@@ -46,19 +46,96 @@ public class MainActivity extends AppCompatActivity {
             dialog.dismiss();
         });
 
-        updateList();
+        listener = this::updateFragments;
+        GoodItemsContainer.addListener(listener);
+
+        orientationCheck();
     }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("pattern", pattern);
+    protected void onStart() {
+        super.onStart();
+        updateFragments();
+    }
+
+    private void orientationCheck() {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            /*Fragment details = getSupportFragmentManager().findFragmentById(R.id.fragment_detail_view);
+            if (GoodItemsContainer.peekSelectedGoodItem() != null) {
+                getSupportFragmentManager().beginTransaction().attach(details).commitAllowingStateLoss();
+            }
+            else {
+                getSupportFragmentManager().beginTransaction().detach(details).commitAllowingStateLoss();
+            }*/
+        }
+        else {
+            if (GoodItemsContainer.peekSelectedGoodItem() != null) {
+                Intent intent = new Intent(this, InfoGoodItem.class);
+                intent.putExtra("good", GoodItemsContainer.peekSelectedGoodItem());
+                startActivity(intent);
+            }
+        }
+    }
+
+    private void updateFragments() {
+        /*List<GoodItem> list = GoodItemsContainer.getGoodItemsListByPattern();
+        GoodItem selected = GoodItemsContainer.getSelectedGoodItem();
+
+        GoodItemListFragment listFragment =
+                (GoodItemListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container_view);
+
+        GoodItemDetailFragment detailFragment =
+                (GoodItemDetailFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_detail_view);
+
+        listFragment.updateList(list);*/
+
+
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+            Fragment details = getSupportFragmentManager().findFragmentById(R.id.fragment_detail_view);
+            Fragment list = getSupportFragmentManager().findFragmentById(R.id.fragment_container_view);
+            getSupportFragmentManager().beginTransaction().detach(list).commitAllowingStateLoss();
+            getSupportFragmentManager().beginTransaction().attach(list).commitAllowingStateLoss();
+
+
+
+            if (GoodItemsContainer.peekSelectedGoodItem() == null) {
+                getSupportFragmentManager().beginTransaction().detach(details).commitAllowingStateLoss();
+            }
+            else {
+                getSupportFragmentManager().beginTransaction().detach(details).commitAllowingStateLoss();
+                getSupportFragmentManager().beginTransaction().attach(details).commitAllowingStateLoss();
+            }
+            //fTrans.addToBackStack(null);
+        }
+        else {
+            if (GoodItemsContainer.peekSelectedGoodItem() != null) {
+                Intent intent = new Intent(this, InfoGoodItem.class);
+                intent.putExtra("good", GoodItemsContainer.peekSelectedGoodItem());
+                startActivity(intent);
+            }
+        }
+
+        /*if (selected != null && list.contains(selected)){
+            int index = list.indexOf(selected);
+            listFragment.switchSelection(index);
+
+            if (detailFragment != null)
+                detailFragment.setSelectedGoodItem(selected);
+        }*/
     }
 
     @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        pattern = savedInstanceState.getString("pattern");
+    protected void onDestroy() {
+        super.onDestroy();
+        GoodItemsContainer.removeListener(listener);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        GoodItemsContainer.popSelectedGoodItem();
     }
 
     @Override
@@ -70,20 +147,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch(id){
+            case R.id.no_sort_settings:
+                Toast.makeText(this, "No sort", Toast.LENGTH_SHORT).show();
+                GoodItemsContainer.setSortType(GoodItemsSortType.NO_SORT);
+                return true;
+            case R.id.sort_by_name_settings:
+                Toast.makeText(this, "No sort", Toast.LENGTH_SHORT).show();
+                GoodItemsContainer.setSortType(GoodItemsSortType.SORT_BY_NAME);
+                return true;
+            case R.id.sort_by_find_date_settings:
+                Toast.makeText(this, "No sort", Toast.LENGTH_SHORT).show();
+                GoodItemsContainer.setSortType(GoodItemsSortType.SORT_BY_FIND_DATE);
+                return true;
+            case R.id.load_settings:
+                Toast.makeText(this, "Loaded", Toast.LENGTH_SHORT).show();
+                GoodItemsContainer.importFromJson(this);
+                return true;
+            case R.id.save_settings:
+                Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+                GoodItemsContainer.exportToJson(this);
+                return true;
+            case R.id.add_settings:
+                Intent intent = new Intent(this, InsertGoodItemForm.class);
+                startActivityForResult(intent, ADD_NEW_GOOD_ITEM);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public boolean onContextItemSelected(MenuItem item) {
+        super.onContextItemSelected(item);
         int idInList = item.getItemId();
         if (item.getTitle() == "Info") {
             GoodItem goodItem = GoodItemsContainer.getGoodItemsList().get(idInList);
-            Intent intent = new Intent(this, InfoGoodItem.class);
-            intent.putExtra("good", goodItem);
-            startActivity(intent);
+            GoodItemsContainer.pushSelectedGoodItem(goodItem);
+            if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+                Intent intent = new Intent(this, InfoGoodItem.class);
+                intent.putExtra("good", goodItem);
+                startActivity(intent);
+            }
         }
         else if (item.getTitle() == "Edit") {
             GoodItem goodItem = GoodItemsContainer.getGoodItemsList().get(idInList);
             Intent intent = new Intent(this, EditGoodItemForm.class);
             intent.putExtra("good", goodItem);
             startActivityForResult(intent, EDIT_GOOD_ITEM);
-            updateList();
         }
         else if (item.getTitle() == "Remove") {
             UUID id = GoodItemsContainer.getGoodItemsList().get(idInList).getId();
@@ -93,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
             dialog.findViewById(R.id.dialog_yes).setOnClickListener(view -> {
                 GoodItemsContainer.removeGoodItem(id);
                 dialog.dismiss();
-                updateList();
             });
             dialog.show();
         }
@@ -116,17 +227,13 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //Toast.makeText(MainActivity.this, "TextSubmit: " + query, Toast.LENGTH_SHORT).show();
-                pattern = query;
-                updateList();
+                GoodItemsContainer.setPattern(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //Toast.makeText(MainActivity.this, "TextChange: " + newText, Toast.LENGTH_SHORT).show();
-                pattern = newText;
-                updateList();
+                GoodItemsContainer.setPattern(newText);
                 return true;
             }
         });
@@ -135,66 +242,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-       /* int id = item.getItemId();
-        switch(id){
-            case R.id.no_sort_settings:
-                Toast.makeText(this, "No sort", Toast.LENGTH_SHORT).show();
-                GoodItemsContainer.setSortType(GoodItemsSortType.NO_SORT);
-                updateList();
-                return true;
-            case R.id.sort_by_name_settings:
-                Toast.makeText(this, "No sort", Toast.LENGTH_SHORT).show();
-                GoodItemsContainer.setSortType(GoodItemsSortType.SORT_BY_NAME);
-                updateList();
-                return true;
-            case R.id.sort_by_find_date_settings:
-                Toast.makeText(this, "No sort", Toast.LENGTH_SHORT).show();
-                GoodItemsContainer.setSortType(GoodItemsSortType.SORT_BY_FIND_DATE);
-                updateList();
-                return true;
-            case R.id.load_settings:
-                Toast.makeText(this, "Loaded", Toast.LENGTH_SHORT).show();
-                GoodItemsContainer.importFromJson(this);
-                updateList();
-                return true;
-            case R.id.save_settings:
-                Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-                GoodItemsContainer.exportToJson(this);
-                updateList();
-                return true;
-            case R.id.add_settings:
-                Intent intent = new Intent(this, InsertGoodItemForm.class);
-                startActivityForResult(intent, ADD_NEW_GOOD_ITEM);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);*/
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    void updateList() {
-
-        //ListView list = findViewById(R.id.itemsList);
-        //list.removeAllViewsInLayout();
-        //GoodAdapter adapter = new GoodAdapter(this, GoodItemsContainer.getGoodItemsList(pattern));
-        //list.setAdapter(adapter);
-    }
-
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == ADD_NEW_GOOD_ITEM && resultCode == GOOD_ITEM_RESULT) {
             GoodItem goodItem = (GoodItem) data.getSerializableExtra("good");
             GoodItemsContainer.addGoodItem(goodItem);
-            updateList();
         }
         else if (requestCode == EDIT_GOOD_ITEM && resultCode == GOOD_ITEM_RESULT) {
             GoodItem goodItem = (GoodItem) data.getSerializableExtra("good");
             GoodItemsContainer.updateGoodItem(goodItem);
-            updateList();
         }
     }
 }

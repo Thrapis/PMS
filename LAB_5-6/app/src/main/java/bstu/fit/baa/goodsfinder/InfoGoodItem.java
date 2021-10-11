@@ -1,5 +1,6 @@
 package bstu.fit.baa.goodsfinder;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -8,7 +9,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import bstu.fit.baa.goodsfinder.entitie.GoodItem;
+import bstu.fit.baa.goodsfinder.entity.GoodItem;
+import bstu.fit.baa.goodsfinder.util.GoodItemsContainer;
 
 public class InfoGoodItem extends AppCompatActivity {
 
@@ -18,6 +20,11 @@ public class InfoGoodItem extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_good_item);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            finish();
+            return;
+        }
 
         goodItem = (GoodItem) getIntent().getSerializableExtra("good");
 
@@ -48,6 +55,7 @@ public class InfoGoodItem extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                GoodItemsContainer.popSelectedGoodItem();
                 this.finish();
                 return true;
             default:
@@ -58,5 +66,6 @@ public class InfoGoodItem extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        GoodItemsContainer.popSelectedGoodItem();
     }
 }
