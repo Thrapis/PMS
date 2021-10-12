@@ -9,5 +9,4 @@
     app:layoutManager="LinearLayoutManager"
     tools:context=".GoodItemListFragment"
     tools:listitem="@layout/good_row"
-    android:choiceMode="singleChoice"
-    android:listSelector="#AAAAAA"/>
+    android:choiceMode="singleChoice"/>

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Stack;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -27,8 +26,6 @@ public class GoodItemsContainer {
 
     private static List<GoodItem> goodItems = new ArrayList<>();
     private static List<GoodItemsContainerListener> listeners = new ArrayList<>();
-    private static Stack<GoodItem> selectedGoodItemStack = new Stack<>();
-    //private static GoodItem selectedGoodItem = null;
 
     private static void handleListeners() {
         for (GoodItemsContainerListener listener : listeners) {
@@ -128,38 +125,6 @@ public class GoodItemsContainer {
 
     public static void setPattern(String pattern) {
         GoodItemsContainer.pattern = pattern;
-        clearSelectedGoodItems();
-        handleListeners();
-    }
-
-    public static GoodItem peekSelectedGoodItem() {
-        if (selectedGoodItemStack.empty())
-            return null;
-        else
-            return selectedGoodItemStack.peek();
-    }
-
-    public static void pushSelectedGoodItem(GoodItem goodItem) {
-        if (!selectedGoodItemStack.empty() && goodItem == selectedGoodItemStack.peek())
-            selectedGoodItemStack.push(null);
-        else
-            selectedGoodItemStack.push(goodItem);
-        handleListeners();
-    }
-
-    public static GoodItem popSelectedGoodItem() {
-        if (selectedGoodItemStack.empty()) {
-            return null;
-        }
-        else {
-            GoodItem goodItem = selectedGoodItemStack.pop();
-            handleListeners();
-            return goodItem;
-        }
-    }
-
-    public static void clearSelectedGoodItems() {
-        selectedGoodItemStack.clear();
         handleListeners();
     }
 
@@ -200,7 +165,6 @@ public class GoodItemsContainer {
             streamReader = new InputStreamReader(inputStream);
             Gson gson = new Gson();
             goodItems = gson.fromJson(streamReader, GoodItemsShell.class).getGoods();
-            clearSelectedGoodItems();
             handleListeners();
             return true;
         } catch (Exception e) {

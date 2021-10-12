@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bstu.fit.baa.goodsfinder.InfoGoodItem;
+import bstu.fit.baa.goodsfinder.MainActivity;
 import bstu.fit.baa.goodsfinder.R;
 import bstu.fit.baa.goodsfinder.entity.GoodItem;
-import bstu.fit.baa.goodsfinder.util.GoodItemsContainer;
 
 public class GoodAdapter extends ArrayAdapter {
 
@@ -83,21 +83,22 @@ public class GoodAdapter extends ArrayAdapter {
         ((TextView) view.findViewById(R.id.good_find_date)).setText(goodItem.getFindDateInFormat());
         ((TextView) view.findViewById(R.id.good_find_place)).setText(goodItem.getFindPlace());
 
-        if (selections[position]) {
+        /*if (selections[position]) {
             view.setBackgroundColor(selectedColor);
         } else {
             view.setBackgroundColor(notSelectedColor);
-        }
+        }*/
 
         ((Activity)context).registerForContextMenu(view);
         view.setId(position);
         view.setTag(goodItem.getId());
         view.setOnClickListener(view1 -> {
             if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                GoodItemsContainer.pushSelectedGoodItem(goodItem);
+                //GoodItemsContainer.pushSelectedGoodItem(goodItem);
+                ((MainActivity)context).newStateOfFragments(goodItem);
             }
             else {
-                GoodItemsContainer.pushSelectedGoodItem(goodItem);
+                //GoodItemsContainer.pushSelectedGoodItem(goodItem);
                 Intent intent = new Intent(context, InfoGoodItem.class);
                 intent.putExtra("good", goodItem);
                 context.startActivity(intent);

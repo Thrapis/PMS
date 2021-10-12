@@ -10,17 +10,18 @@ import android.widget.ListView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import bstu.fit.baa.goodsfinder.adapter.GoodAdapter;
 import bstu.fit.baa.goodsfinder.entity.GoodItem;
-import bstu.fit.baa.goodsfinder.util.GoodItemsContainer;
 
 public class GoodItemListFragment extends Fragment {
 
     private Context context;
     private ListView listView;
     private GoodAdapter adapter;
+    private List<GoodItem> list = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,16 +34,13 @@ public class GoodItemListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_good_item_list, container, false);
         listView = (ListView)view;
 
-        List<GoodItem> list = GoodItemsContainer.getGoodItemsListByPattern();
-        GoodItem selected = GoodItemsContainer.peekSelectedGoodItem();
-
         updateList(list);
-        if (selected != null && list.contains(selected)){
-            int index = list.indexOf(selected);
-            switchSelection(index);
-        }
 
         return view;
+    }
+
+    void setList(List<GoodItem> list) {
+        this.list = list;
     }
 
     void updateList(List<GoodItem> list) {
@@ -50,7 +48,4 @@ public class GoodItemListFragment extends Fragment {
         listView.setAdapter(adapter);
     }
 
-    void switchSelection(int index) {
-        adapter.switchSelection(index);
-    }
 }

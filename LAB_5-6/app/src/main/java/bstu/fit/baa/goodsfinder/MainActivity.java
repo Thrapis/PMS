@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.util.UUID;
@@ -45,98 +44,61 @@ public class MainActivity extends AppCompatActivity {
         dialog.findViewById(R.id.dialog_no).setOnClickListener(view -> {
             dialog.dismiss();
         });
-
-        listener = this::updateFragments;
-        GoodItemsContainer.addListener(listener);
-
-        orientationCheck();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        updateFragments();
+        newStateOfFragments(null);
     }
 
-    private void orientationCheck() {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            /*Fragment details = getSupportFragmentManager().findFragmentById(R.id.fragment_detail_view);
-            if (GoodItemsContainer.peekSelectedGoodItem() != null) {
-                getSupportFragmentManager().beginTransaction().attach(details).commitAllowingStateLoss();
-            }
-            else {
-                getSupportFragmentManager().beginTransaction().detach(details).commitAllowingStateLoss();
-            }*/
-        }
-        else {
-            if (GoodItemsContainer.peekSelectedGoodItem() != null) {
-                Intent intent = new Intent(this, InfoGoodItem.class);
-                intent.putExtra("good", GoodItemsContainer.peekSelectedGoodItem());
-                startActivity(intent);
-            }
-        }
-    }
+    public void newStateOfFragments(GoodItem goodItem) {
 
-    private void updateFragments() {
-        /*List<GoodItem> list = GoodItemsContainer.getGoodItemsListByPattern();
-        GoodItem selected = GoodItemsContainer.getSelectedGoodItem();
-
-        GoodItemListFragment listFragment =
-                (GoodItemListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container_view);
-
-        GoodItemDetailFragment detailFragment =
-                (GoodItemDetailFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_detail_view);
-
-        listFragment.updateList(list);*/
-
-
+        GoodItemListFragment listFragment = new GoodItemListFragment();
+        listFragment.setList(GoodItemsContainer.getGoodItemsListByPattern());
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container_view, listFragment).commitAllowingStateLoss();
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
-            Fragment details = getSupportFragmentManager().findFragmentById(R.id.fragment_detail_view);
-            Fragment list = getSupportFragmentManager().findFragmentById(R.id.fragment_container_view);
-            getSupportFragmentManager().beginTransaction().detach(list).commitAllowingStateLoss();
-            getSupportFragmentManager().beginTransaction().attach(list).commitAllowingStateLoss();
+            if (goodItem != null) {
+                fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
+                /*GoodItemListFragment listFragment = new GoodItemListFragment();
+                listFragment.setList(GoodItemsContainer.getGoodItemsListByPattern());
+                fragmentTransaction.replace(R.id.fragment_container_view, listFragment);*/
 
+                GoodItemDetailFragment detailFragment = new GoodItemDetailFragment();
+                fragmentTransaction.replace(R.id.fragment_detail_view, detailFragment);
+                detailFragment.setSelectedGoodItem(goodItem);
 
-            if (GoodItemsContainer.peekSelectedGoodItem() == null) {
-                getSupportFragmentManager().beginTransaction().detach(details).commitAllowingStateLoss();
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commitAllowingStateLoss();
             }
-            else {
-                getSupportFragmentManager().beginTransaction().detach(details).commitAllowingStateLoss();
-                getSupportFragmentManager().beginTransaction().attach(details).commitAllowingStateLoss();
-            }
-            //fTrans.addToBackStack(null);
         }
         else {
-            if (GoodItemsContainer.peekSelectedGoodItem() != null) {
+            /*fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+            GoodItemListFragment listFragment = new GoodItemListFragment();
+            listFragment.setList(GoodItemsContainer.getGoodItemsListByPattern());
+            fragmentTransaction.replace(R.id.fragment_container_view, listFragment);
+
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commitAllowingStateLoss();*/
+
+            if (goodItem != null) {
                 Intent intent = new Intent(this, InfoGoodItem.class);
-                intent.putExtra("good", GoodItemsContainer.peekSelectedGoodItem());
+                intent.putExtra("good", goodItem);
                 startActivity(intent);
             }
         }
-
-        /*if (selected != null && list.contains(selected)){
-            int index = list.indexOf(selected);
-            listFragment.switchSelection(index);
-
-            if (detailFragment != null)
-                detailFragment.setSelectedGoodItem(selected);
-        }*/
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        GoodItemsContainer.removeListener(listener);
     }
 
-    @Override
-    public void onBackPressed() {
-        //super.onBackPressed();
-        GoodItemsContainer.popSelectedGoodItem();
-    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -165,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.load_settings:
                 Toast.makeText(this, "Loaded", Toast.LENGTH_SHORT).show();
                 GoodItemsContainer.importFromJson(this);
+                newStateOfFragments(null);
                 return true;
             case R.id.save_settings:
                 Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
@@ -184,11 +147,13 @@ public class MainActivity extends AppCompatActivity {
         int idInList = item.getItemId();
         if (item.getTitle() == "Info") {
             GoodItem goodItem = GoodItemsContainer.getGoodItemsList().get(idInList);
-            GoodItemsContainer.pushSelectedGoodItem(goodItem);
             if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
                 Intent intent = new Intent(this, InfoGoodItem.class);
                 intent.putExtra("good", goodItem);
                 startActivity(intent);
+            }
+            else {
+                newStateOfFragments(goodItem);
             }
         }
         else if (item.getTitle() == "Edit") {
