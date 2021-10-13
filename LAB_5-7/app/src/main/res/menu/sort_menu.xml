@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu android:icon="@drawable/ic_loupe"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+   <item
+        android:id="@+id/sort_settings"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_sort"
+        android:name="android:actionButtonStyle"
+        android:title="Sort">
+        <menu>
+            <item
+                android:id="@+id/no_sort_settings"
+                android:title="No sort" />
+            <item
+                android:id="@+id/sort_by_name_settings"
+                android:title="Sort by name" />
+            <item
+                android:id="@+id/sort_by_find_date_settings"
+                android:title="Sort by find date" />
+
+            <item
+                android:icon="@drawable/ic_favorite_std"
+                android:id="@+id/standard_favorites_settings"
+                android:title="All"
+                app:showAsAction="ifRoom"/>
+            <item
+                android:icon="@drawable/ic_favorite_active"
+                android:id="@+id/active_favorites_settings"
+                android:title="Favorites"
+                app:showAsAction="ifRoom" />
+            <item
+                android:icon="@drawable/ic_favorite_disactive"
+                android:id="@+id/disactive_favorites_settings"
+                android:title="No favorites"
+                app:showAsAction="ifRoom" />
+        </menu>
+   </item>
+</menu>
