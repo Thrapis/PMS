@@ -11,8 +11,7 @@ public class DatabaseHelperSingleton {
 
     public static DatabaseHelper getDatabaseHelper(Context context) {
         if (database == null)
-            database = Room.databaseBuilder(context, DatabaseHelper.class, "database")
-                    .allowMainThreadQueries().build();
+            database = Room.databaseBuilder(context, DatabaseHelper.class, "database").build();
 
         return database;
     }

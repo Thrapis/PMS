@@ -5,9 +5,13 @@ import static bstu.fit.baa.goodsfinder.util.IntentCodeLiteral.EDIT_GOOD_ITEM;
 import static bstu.fit.baa.goodsfinder.util.IntentCodeLiteral.GOOD_ITEM_RESULT;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +25,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import bstu.fit.baa.goodsfinder.entity.GoodItem;
 import bstu.fit.baa.goodsfinder.listener.GoodItemsContainerListener;
@@ -55,31 +61,37 @@ public class MainActivity extends AppCompatActivity {
 
     public void newStateOfFragments(GoodItem goodItem) {
 
-        GoodItemListFragment listFragment = new GoodItemListFragment();
-        listFragment.setCursor(DatabaseGoodItemsContainer.getGoodItemsListByPatternAsCursor(this));
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container_view, listFragment).commitAllowingStateLoss();
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        Context context = this;
+        executor.execute(() -> {
+            Cursor cursor = DatabaseGoodItemsContainer.getGoodItemsListByPatternAsCursor(context);
+            handler.post(() -> {
+                GoodItemListFragment listFragment = new GoodItemListFragment();
+                listFragment.setCursor(cursor);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container_view, listFragment).commitAllowingStateLoss();
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    if (goodItem != null) {
+                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        GoodItemDetailFragment detailFragment = new GoodItemDetailFragment();
+                        fragmentTransaction.replace(R.id.fragment_detail_view, detailFragment);
+                        detailFragment.setSelectedGoodItem(goodItem);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commitAllowingStateLoss();
+                    }
+                }
+                else {
+                    if (goodItem != null) {
+                        Intent intent = new Intent(context, InfoGoodItem.class);
+                        intent.putExtra("good", goodItem);
+                        startActivity(intent);
+                    }
+                }
+            });
+        });
 
-            if (goodItem != null) {
-                fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
-                GoodItemDetailFragment detailFragment = new GoodItemDetailFragment();
-                fragmentTransaction.replace(R.id.fragment_detail_view, detailFragment);
-                detailFragment.setSelectedGoodItem(goodItem);
-
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commitAllowingStateLoss();
-            }
-        }
-        else {
-            if (goodItem != null) {
-                Intent intent = new Intent(this, InfoGoodItem.class);
-                intent.putExtra("good", goodItem);
-                startActivity(intent);
-            }
-        }
     }
 
     @Override
@@ -154,35 +166,56 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         super.onContextItemSelected(item);
+
         int idInList = item.getItemId();
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        Context context = this;
+
         if (item.getTitle() == "Info") {
-            GoodItem goodItem = DatabaseGoodItemsContainer.getGoodItemsListByPattern(this).get(idInList);
-            if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-                Intent intent = new Intent(this, InfoGoodItem.class);
-                intent.putExtra("good", goodItem);
-                startActivity(intent);
-            }
-            else {
-                newStateOfFragments(goodItem);
-            }
+            executor.execute(() -> {
+                GoodItem goodItem = DatabaseGoodItemsContainer.getGoodItemsListByPattern(context).get(idInList);
+                handler.post(() -> {
+                    if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+                        Intent intent = new Intent(context, InfoGoodItem.class);
+                        intent.putExtra("good", goodItem);
+                        startActivity(intent);
+                    }
+                    else {
+                        newStateOfFragments(goodItem);
+                    }
+                });
+            });
         }
         else if (item.getTitle() == "Favored") {
-            GoodItem goodItem = DatabaseGoodItemsContainer.getGoodItemsListByPattern(this).get(idInList);
-            goodItem.setFavorite(true);
-            DatabaseGoodItemsContainer.updateGoodItem(this, goodItem);
-            newStateOfFragments(null);
+            executor.execute(() -> {
+                GoodItem goodItem = DatabaseGoodItemsContainer.getGoodItemsListByPattern(context).get(idInList);
+                handler.post(() -> {
+                    goodItem.setFavorite(true);
+                    DatabaseGoodItemsContainer.updateGoodItem(context, goodItem);
+                    newStateOfFragments(null);
+                });
+            });
         }
         else if (item.getTitle() == "Unfavored") {
-            GoodItem goodItem = DatabaseGoodItemsContainer.getGoodItemsListByPattern(this).get(idInList);
-            goodItem.setFavorite(false);
-            DatabaseGoodItemsContainer.updateGoodItem(this, goodItem);
-            newStateOfFragments(null);
+            executor.execute(() -> {
+                GoodItem goodItem = DatabaseGoodItemsContainer.getGoodItemsListByPattern(context).get(idInList);
+                handler.post(() -> {
+                    goodItem.setFavorite(false);
+                    DatabaseGoodItemsContainer.updateGoodItem(context, goodItem);
+                    newStateOfFragments(null);
+                });
+            });
         }
         else if (item.getTitle() == "Edit") {
-            GoodItem goodItem = DatabaseGoodItemsContainer.getGoodItemsListByPattern(this).get(idInList);
-            Intent intent = new Intent(this, EditGoodItemForm.class);
-            intent.putExtra("good", goodItem);
-            startActivityForResult(intent, EDIT_GOOD_ITEM);
+            executor.execute(() -> {
+                GoodItem goodItem = DatabaseGoodItemsContainer.getGoodItemsListByPattern(context).get(idInList);
+                handler.post(() -> {
+                    Intent intent = new Intent(context, EditGoodItemForm.class);
+                    intent.putExtra("good", goodItem);
+                    startActivityForResult(intent, EDIT_GOOD_ITEM);
+                });
+            });
         }
         else if (item.getTitle() == "Remove") {
             UUID id = DatabaseGoodItemsContainer.getGoodItemsListByPattern(this).get(idInList).getId();
@@ -190,9 +223,13 @@ public class MainActivity extends AppCompatActivity {
             TextView text = dialog.findViewById(R.id.good_id);
             text.setText(id.toString());
             dialog.findViewById(R.id.dialog_yes).setOnClickListener(view -> {
-                DatabaseGoodItemsContainer.removeGoodItem(this, id);
-                dialog.dismiss();
-                newStateOfFragments(null);
+                executor.execute(() -> {
+                    DatabaseGoodItemsContainer.removeGoodItem(context, id);
+                    handler.post(() -> {
+                        dialog.dismiss();
+                        newStateOfFragments(null);
+                    });
+                });
             });
             dialog.show();
         }
@@ -209,20 +246,15 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.sort_menu, menu);
         getMenuInflater().inflate(R.menu.new_good_menu, menu);
 
-
-
         MenuItem myActionMenuItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) myActionMenuItem.getActionView();
         searchView.setQuery(DatabaseGoodItemsContainer.getPattern(), false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
             public boolean onQueryTextSubmit(String query) {
                 DatabaseGoodItemsContainer.setPattern(query);
                 newStateOfFragments(null);
                 return false;
             }
-
-            @Override
             public boolean onQueryTextChange(String newText) {
                 DatabaseGoodItemsContainer.setPattern(newText);
                 newStateOfFragments(null);
@@ -237,13 +269,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Context context = this;
+
         if (requestCode == ADD_NEW_GOOD_ITEM && resultCode == GOOD_ITEM_RESULT) {
             GoodItem goodItem = (GoodItem) data.getSerializableExtra("good");
-            DatabaseGoodItemsContainer.addGoodItem(this, goodItem);
+            executor.execute(() -> {
+                DatabaseGoodItemsContainer.addGoodItem(context, goodItem);
+            });
         }
         else if (requestCode == EDIT_GOOD_ITEM && resultCode == GOOD_ITEM_RESULT) {
             GoodItem goodItem = (GoodItem) data.getSerializableExtra("good");
-            DatabaseGoodItemsContainer.updateGoodItem(this, goodItem);
+            executor.execute(() -> {
+                DatabaseGoodItemsContainer.updateGoodItem(context, goodItem);
+            });
         }
     }
 }
