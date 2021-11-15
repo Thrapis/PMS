@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/sort_settings"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_sort"
+        android:name="android:actionButtonStyle"
+        android:title="Sort">
+        <menu>
+            <item
+                android:id="@+id/no_sort_setting"
+                android:title="No sort" />
+            <item
+                android:id="@+id/sort_by_name_asc_setting"
+                android:title="Sort by name ascending" />
+            <item
+                android:id="@+id/sort_by_name_desc_setting"
+                android:title="Sort by name descending" />
+        </menu>
+    </item>
+</menu>

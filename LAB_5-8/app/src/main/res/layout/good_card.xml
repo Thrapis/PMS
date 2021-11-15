@@ -8,9 +8,10 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="160dp"
-        android:layout_height="280dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="2dp"
+        android:layout_marginHorizontal="10dp"
         app:cardCornerRadius="4dp"
         android:background="@{good.isFavorite() ? @color/favorite : @color/transparent}">
 
@@ -23,7 +24,7 @@
             <ImageView
                 android:id="@+id/imageCard"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
+                android:layout_height="120dp"
                 android:scaleType="centerCrop" />
 
             <LinearLayout

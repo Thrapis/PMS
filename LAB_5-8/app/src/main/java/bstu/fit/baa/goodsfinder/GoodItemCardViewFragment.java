@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import bstu.fit.baa.goodsfinder.adapter.GoodCardAdapter;
 import bstu.fit.baa.goodsfinder.entity.GoodItem;
+import bstu.fit.baa.goodsfinder.util.ItemsPresentation;
 
 public class GoodItemCardViewFragment extends Fragment {
 
@@ -22,6 +24,7 @@ public class GoodItemCardViewFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<GoodItem> list = new ArrayList<>();
     private GoodCardAdapter adapter;
+    private ItemsPresentation presentation = ItemsPresentation.GRID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,10 +46,22 @@ public class GoodItemCardViewFragment extends Fragment {
         this.list = list;
     }
 
+    void setPresentation(ItemsPresentation presentation) {
+        this.presentation = presentation;
+    }
+
     void updateCardContainer() {
         adapter = new GoodCardAdapter(context, list);
-        GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
-        recyclerView.setLayoutManager(layoutManager);
+
+        if (presentation == ItemsPresentation.GRID) {
+            GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
+            recyclerView.setLayoutManager(layoutManager);
+        }
+        else if (presentation == ItemsPresentation.LIST) {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+            recyclerView.setLayoutManager(layoutManager);
+        }
+
         recyclerView.setAdapter(adapter);
     }
 }

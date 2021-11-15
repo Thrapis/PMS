@@ -24,4 +24,10 @@
         <item name="android:paddingLeft">0dip</item>
         <item name="android:paddingRight">0dip</item>
     </style>
+    <style name="Theme.GoodsFinder.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.GoodsFinder.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.GoodsFinder.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

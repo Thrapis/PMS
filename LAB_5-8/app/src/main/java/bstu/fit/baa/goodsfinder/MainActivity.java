@@ -1,7 +1,7 @@
 package bstu.fit.baa.goodsfinder;
 
-import static bstu.fit.baa.goodsfinder.MainActivity.NewStateReason.UPDATE_LIST;
 import static bstu.fit.baa.goodsfinder.MainActivity.NewStateReason.SELECT_INFO;
+import static bstu.fit.baa.goodsfinder.MainActivity.NewStateReason.UPDATE_LIST;
 import static bstu.fit.baa.goodsfinder.util.IntentCodeLiteral.ADD_NEW_GOOD_ITEM;
 import static bstu.fit.baa.goodsfinder.util.IntentCodeLiteral.EDIT_GOOD_ITEM;
 import static bstu.fit.baa.goodsfinder.util.IntentCodeLiteral.GOOD_ITEM_RESULT;
@@ -21,9 +21,14 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 import java.util.UUID;
@@ -35,22 +40,27 @@ import bstu.fit.baa.goodsfinder.listener.GoodItemsContainerListener;
 import bstu.fit.baa.goodsfinder.util.DatabaseGoodItemsContainer;
 import bstu.fit.baa.goodsfinder.util.GoodItemsFavoriteSelection;
 import bstu.fit.baa.goodsfinder.util.GoodItemsSortType;
+import bstu.fit.baa.goodsfinder.util.ItemsPresentation;
 
-public class MainActivity extends AppCompatActivity {
-
-    private Dialog dialog;
-    private GoodItemsContainerListener listener;
-    private FragmentTransaction fragmentTransaction;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public enum NewStateReason {
         UPDATE_LIST,
         SELECT_INFO
     }
 
+    private Dialog dialog;
+    private GoodItemsContainerListener listener;
+    private FragmentTransaction fragmentTransaction;
+    private ItemsPresentation presentation = ItemsPresentation.GRID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState != null)
+            presentation = (ItemsPresentation) savedInstanceState.getSerializable("presentation");
 
         dialog = new Dialog(this);
         dialog.setTitle("Remove good");
@@ -63,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        NavigationView navigation = findViewById(R.id.nav_view);
+        navigation.setNavigationItemSelectedListener(this);
+
         newStateOfFragments(UPDATE_LIST, null);
     }
 
@@ -72,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
             List<GoodItem> list = DatabaseGoodItemsContainer.getGoodItemsListByPattern(this);
             GoodItemCardViewFragment cardFragment = new GoodItemCardViewFragment();
             cardFragment.setList(list);
+            cardFragment.setPresentation(presentation);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container_view, cardFragment).commitAllowingStateLoss();
         }
@@ -94,6 +109,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("presentation", presentation);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
     }
@@ -109,6 +130,28 @@ public class MainActivity extends AppCompatActivity {
             menu.add(0, v.getId(), 0, "Unfavored");
         menu.add(0, v.getId(), 0, "Edit");
         menu.add(0, v.getId(), 0, "Remove");
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.nav_list:
+                Toast.makeText(this, "List presentation", Toast.LENGTH_SHORT).show();
+                presentation = ItemsPresentation.LIST;
+                newStateOfFragments(UPDATE_LIST, null);
+                break;
+            case R.id.nav_grid:
+                Toast.makeText(this, "Grid presentation", Toast.LENGTH_SHORT).show();
+                presentation = ItemsPresentation.GRID;
+                newStateOfFragments(UPDATE_LIST, null);
+                break;
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     @Override
@@ -145,15 +188,7 @@ public class MainActivity extends AppCompatActivity {
                 DatabaseGoodItemsContainer.setFavoriteSelection(GoodItemsFavoriteSelection.NO_FAVORITES);
                 newStateOfFragments(UPDATE_LIST, null);
                 return true;
-            /*case R.id.load_settings:
-                Toast.makeText(this, "Loaded", Toast.LENGTH_SHORT).show();
-                JsonGoodItemsContainer.importFromJson(this);
-                newStateOfFragments(null);
-                return true;
-            case R.id.save_settings:
-                Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-                JsonGoodItemsContainer.exportToJson(this);
-                return true;*/
+
             case R.id.add_settings:
                 Intent intent = new Intent(this, InsertGoodItemForm.class);
                 startActivityForResult(intent, ADD_NEW_GOOD_ITEM);
