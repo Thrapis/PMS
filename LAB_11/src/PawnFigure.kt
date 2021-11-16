@@ -12,17 +12,22 @@ class PawnFigure(x: Char, y: Int, sideColor: SideColor) : IChessFigure {
 
     constructor(sideColor: SideColor) : this(x = 'A', y = 1, sideColor) {}
 
-    override fun MoveTo(chessCell: ChessCell): IChessFigure? {
-        if (CanMoveTo(chessCell)) {
-            x = chessCell.x
-            y = chessCell.y
+    override fun MoveTo(to_x: Char, to_y: Int): Boolean {
+        if (CanMoveTo(to_x, to_y)) {
+            x = to_x
+            y = to_y
             firstMove = true
-            return chessCell.PlaceFigure(this)
+            return true
         }
-        return null
+        return false
     }
 
-    override fun CanMoveTo(chessCell: ChessCell): Boolean {
+    override fun CanMoveTo(to_x: Char, to_y: Int): Boolean {
+
+        if (to_x in 'A'..'H' && to_y in 1..8) {
+
+        }
+        else return false;
 
         var hasEnemy = false
         if (chessCell.figure != null && chessCell.figure?.sideColor == this.sideColor)

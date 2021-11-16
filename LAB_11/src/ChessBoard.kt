@@ -1,22 +1,17 @@
-import java.lang.Exception
-import kotlin.reflect.typeOf
-
 public class ChessBoard {
 
-    private var board: Array<Array<ChessCell>> = Array(16) { Array(16) { ChessCell() } }
+    private var board = mutableListOf<IChessFigure>()
 
     constructor() {
-        for (i in 0..7){
-            for (j in 0..7) {
+        for (i in 'A'..'H') {
+            for (j in 1..8) {
                 if (j == 1)
-                    board[i][j] = ChessCell('A' + i, j + 1, PawnFigure('A' + i, j + 1, SideColor.White))
+                    board.add(PawnFigure(i, j, SideColor.White))
                 else if (j == 6)
-                    board[i][j] = ChessCell('A' + i, j + 1, PawnFigure('A' + i, j + 1, SideColor.Black))
-                else
-                    board[i][j] = ChessCell('A' + i, j + 1)
+                    board.add(PawnFigure(i, j, SideColor.Black))
             }
         }
-        //board[3][3].PlaceFigure(PawnFigure('A' + 3, 1 + 3))
+        //board[3][3].PlaceFigure(PawnFigure('D', 4))
     }
 
     fun CorrectCountOfFigure(figure: IChessFigure): Boolean {
@@ -37,24 +32,23 @@ public class ChessBoard {
         return true
     }
 
-    fun GetCell(x: Char, y: Int): ChessCell {
-        return board[x - 'A'][y - 1]
-    }
-
-    fun GetCell(x: Int, y: Int): ChessCell {
-        return board[x][y]
-    }
 
     fun HasFigure(x: Char, y: Int): Boolean {
-        return board[x - 'A'][y - 1].figure != null
+        for (i in board.indices) {
+            val figure: IChessFigure = board.get(i);
+            if (figure.x == x && figure.y == y)
+                return true
+        }
+        return false
     }
 
     fun GetFigure(x: Char, y: Int): IChessFigure? {
-        return board[x - 'A'][y - 1].figure
-    }
-
-    fun GetFigure(x: Int, y: Int): IChessFigure? {
-        return board[x][y].figure
+        for (i in board.indices) {
+            val figure: IChessFigure = board.get(i);
+            if (figure.x == x && figure.y == y)
+                return figure
+        }
+        return null
     }
 
     fun MakeTurn(x_from: Char, y_from: Int, x_to: Char, y_to: Int ) {
@@ -78,15 +72,16 @@ public class ChessBoard {
                     print('.')
                 else if (i < 0 || i >= 8 || j < 0 || j >= 8)
                     print(' ')
-                else
-                    print(board[i][j].GetCellImage())
+                else if (HasFigure('A' + i, j + 1))
+                    print(GetFigure('A' + i, j + 1)?.GetFigureImage())
+                else print(' ')
             }
             println()
         }
         println()
     }
 
-    fun PrintBoardWithSelection(x: Char, y: Int) {
+    /*fun PrintBoardWithSelection(x: Char, y: Int) {
         var x_p = x - 'A'
         var y_p = y - 1
         var selectedFigure = GetFigure(x, y)
@@ -113,5 +108,5 @@ public class ChessBoard {
             println()
         }
         println()
-    }
+    }*/
 }

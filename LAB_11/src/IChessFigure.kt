@@ -6,8 +6,8 @@ interface IChessFigure {
     var sideColor: SideColor
         get
 
-    fun MoveTo(chessCell: ChessCell): IChessFigure?
-    fun CanMoveTo(chessCell: ChessCell): Boolean
+    fun MoveTo(to_x: Char, to_y: Int): IChessFigure?
+    fun CanMoveTo(to_x: Char, to_y: Int): Boolean
     fun GetFigureImage(): Char {
         return '*'
     }
