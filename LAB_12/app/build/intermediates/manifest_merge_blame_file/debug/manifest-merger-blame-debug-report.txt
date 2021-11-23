@@ -1,0 +1,81 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="bstu.fit.baa.weatherreport"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+8-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="31" />
+9-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:5:5-66
+11-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:5:22-64
+12    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+12-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:6:5-79
+12-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:6:22-76
+13    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+13-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:7:5-81
+13-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:7:22-78
+14
+15    <application
+15-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:9:5-25:19
+16        android:allowBackup="true"
+16-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:10:9-35
+17        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+17-->[androidx.core:core:1.5.0] C:\Users\Thrapis-ZenPC\.gradle\caches\transforms-3\95d602989a5463e3990d89684b8bf996\transformed\core-1.5.0\AndroidManifest.xml:24:18-86
+18        android:debuggable="true"
+19        android:extractNativeLibs="false"
+20        android:icon="@mipmap/ic_launcher"
+20-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:11:9-43
+21        android:label="@string/app_name"
+21-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:12:9-41
+22        android:roundIcon="@mipmap/ic_launcher_round"
+22-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:13:9-54
+23        android:supportsRtl="true"
+23-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:14:9-35
+24        android:testOnly="true"
+25        android:theme="@style/Theme.WeatherReport" >
+25-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:15:9-51
+26        <activity
+26-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:16:9-24:20
+27            android:name="bstu.fit.baa.weatherreport.MainActivity"
+27-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:17:13-41
+28            android:exported="true" >
+28-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:18:13-36
+29            <intent-filter>
+29-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:19:13-23:29
+30                <action android:name="android.intent.action.MAIN" />
+30-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:20:17-69
+30-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:20:25-66
+31
+32                <category android:name="android.intent.category.LAUNCHER" />
+32-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:22:17-77
+32-->E:\Study\PMS\LABS\LAB_12\app\src\main\AndroidManifest.xml:22:27-74
+33            </intent-filter>
+34        </activity>
+35
+36        <provider
+36-->[com.squareup.picasso:picasso:2.71828] C:\Users\Thrapis-ZenPC\.gradle\caches\transforms-3\3819a7313e5b7d36a7ccffa8ba21c8b7\transformed\jetified-picasso-2.71828\AndroidManifest.xml:8:9-11:40
+37            android:name="com.squareup.picasso.PicassoProvider"
+37-->[com.squareup.picasso:picasso:2.71828] C:\Users\Thrapis-ZenPC\.gradle\caches\transforms-3\3819a7313e5b7d36a7ccffa8ba21c8b7\transformed\jetified-picasso-2.71828\AndroidManifest.xml:9:13-64
+38            android:authorities="bstu.fit.baa.weatherreport.com.squareup.picasso"
+38-->[com.squareup.picasso:picasso:2.71828] C:\Users\Thrapis-ZenPC\.gradle\caches\transforms-3\3819a7313e5b7d36a7ccffa8ba21c8b7\transformed\jetified-picasso-2.71828\AndroidManifest.xml:10:13-72
+39            android:exported="false" />
+39-->[com.squareup.picasso:picasso:2.71828] C:\Users\Thrapis-ZenPC\.gradle\caches\transforms-3\3819a7313e5b7d36a7ccffa8ba21c8b7\transformed\jetified-picasso-2.71828\AndroidManifest.xml:11:13-37
+40
+41        <activity
+41-->[pub.devrel:easypermissions:3.0.0] C:\Users\Thrapis-ZenPC\.gradle\caches\transforms-3\a72ef5a7804a35ea663ddc26a131578a\transformed\jetified-easypermissions-3.0.0\AndroidManifest.xml:12:9-16:66
+42            android:name="pub.devrel.easypermissions.AppSettingsDialogHolderActivity"
+42-->[pub.devrel:easypermissions:3.0.0] C:\Users\Thrapis-ZenPC\.gradle\caches\transforms-3\a72ef5a7804a35ea663ddc26a131578a\transformed\jetified-easypermissions-3.0.0\AndroidManifest.xml:13:13-86
+43            android:exported="false"
+43-->[pub.devrel:easypermissions:3.0.0] C:\Users\Thrapis-ZenPC\.gradle\caches\transforms-3\a72ef5a7804a35ea663ddc26a131578a\transformed\jetified-easypermissions-3.0.0\AndroidManifest.xml:14:13-37
+44            android:label=""
+44-->[pub.devrel:easypermissions:3.0.0] C:\Users\Thrapis-ZenPC\.gradle\caches\transforms-3\a72ef5a7804a35ea663ddc26a131578a\transformed\jetified-easypermissions-3.0.0\AndroidManifest.xml:15:13-29
+45            android:theme="@style/EasyPermissions.Transparent" />
+45-->[pub.devrel:easypermissions:3.0.0] C:\Users\Thrapis-ZenPC\.gradle\caches\transforms-3\a72ef5a7804a35ea663ddc26a131578a\transformed\jetified-easypermissions-3.0.0\AndroidManifest.xml:16:13-63
+46    </application>
+47
+48</manifest>

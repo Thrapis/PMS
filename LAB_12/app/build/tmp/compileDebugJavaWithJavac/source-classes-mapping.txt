@@ -1,0 +1,2 @@
+bstu/fit/baa/weatherreport/BuildConfig.java
+ bstu.fit.baa.weatherreport.BuildConfig
