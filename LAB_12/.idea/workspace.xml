@@ -10,19 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9dd9b16a-a847-4b2c-a68b-ae4833eca045" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/bstu/fit/baa/weatherreport/MyLocation.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/bstu/fit/baa/weatherreport/openweathermap/OpenWeatherMapControl.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/bstu/fit/baa/weatherreport/openweathermap/OpenWeatherMapService.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/bstu/fit/baa/weatherreport/openweathermap/entity/Clouds.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/bstu/fit/baa/weatherreport/openweathermap/entity/Coordinate.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/bstu/fit/baa/weatherreport/openweathermap/entity/Main.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/bstu/fit/baa/weatherreport/openweathermap/entity/Rain.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/bstu/fit/baa/weatherreport/openweathermap/entity/Snow.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/bstu/fit/baa/weatherreport/openweathermap/entity/System.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/bstu/fit/baa/weatherreport/openweathermap/entity/Weather.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/bstu/fit/baa/weatherreport/openweathermap/entity/WeatherResponse.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/bstu/fit/baa/weatherreport/openweathermap/entity/Wind.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../LAB_1" beforeDir="false" afterPath="$PROJECT_DIR$/../LAB_1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/Weather_Report.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/Weather_Report.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/Weather_Report.app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/Weather_Report.app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +26,34 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Weather Report" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Weather Report" type="f1a62948:ProjectNode" />
+                <item name="app" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Weather Report" type="f1a62948:ProjectNode" />
+                <item name="app" type="2d1252cf:ModuleNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
